@@ -1,5 +1,6 @@
 package com.swm.ProductOrder.domain;
 
+import com.swm.ProductOrder.exception.SoldOutException;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -35,5 +36,13 @@ public class Product {
         product.stock = stock;
 
         return product;
+    }
+
+    public void decreaseStock(int quantity) {
+        int restStock = this.stock - quantity;
+        if (restStock < 0) {
+            throw new SoldOutException();
+        }
+        this.stock = restStock;
     }
 }
